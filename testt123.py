@@ -1,4 +1,2 @@
 x = "haha"
-print(x)
-
-print("Hello World")
+print(f"lol {x}")
