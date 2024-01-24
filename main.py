@@ -59,6 +59,11 @@ Section = {
         "North": "Vortex Vestibule",
         "East": "The Glade Entrance",
         "South": "Whispering Woods",
-    }
+    },
     # 3rd Phase of the Maze
+    "Echoing Corridor": {  #3 Ways 
+        "North": "SECTION 5",
+        "East": "Wraith's Walk",
+        "South": "The Glade Entrance",
+    },
 }
