@@ -10,14 +10,14 @@ def prompt():
 
 # Maze Map
 Section = {
-    # Starting Point
+    # Starting Point-----------------------------------
     "The Glade": {  # 4 Ways
         "North": "The Glade Entrance",
         "East": "Runners' Junction",
         "South": "Twilight Tunnels",
         "West": "Whispering Woods",
     },
-    # 2nd Phase of the Maze
+    # 2nd Phase of the Maze----------------------------
     "The Glade Entrance": {  # 4 Ways
         "North": "Echoing Corridor",
         "East": "Shadow Labyrinth",
@@ -60,7 +60,7 @@ Section = {
         "East": "The Glade Entrance",
         "South": "Whispering Woods",
     },
-    # 3rd Phase of the Maze
+    # 3rd Phase of the Maze-----------------------------
     "Echoing Corridor": {  #3 Ways 
         "North": "SECTION 5",
         "East": "Wraith's Walk",
