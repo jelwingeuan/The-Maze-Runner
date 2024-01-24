@@ -1,5 +1,10 @@
 import os
 
+from PIL import Image
+
+map = Image.open("themazerunner.png")
+map.show()
+
 
 # Menu
 def prompt():
@@ -35,9 +40,9 @@ Section = {
     },
     "Enigma Passage": {  # 4 Ways
         "North": "Runners' Junction",
-        "East": "Runners' Junction",
-        "South": "Twilight Tunnels",
-        "West": "Whispering Woods",
+        "East": "Serpent's Spiral",
+        "South": "Cryptic Crossroads",
+        "West": "Twilight Tunnels",
     },
     "Twilight Tunnels": {  # 3 Ways
         "North": "The Glade",
@@ -61,9 +66,65 @@ Section = {
         "South": "Whispering Woods",
     },
     # 3rd Phase of the Maze-----------------------------
-    "Echoing Corridor": {  #3 Ways 
+    "Echoing Corridor": {  # 3 Ways
         "North": "SECTION 5",
         "East": "Wraith's Walk",
         "South": "The Glade Entrance",
+    },
+    "Wraith's Walk": {  # 3 Ways
+        "East": "Abyssal Arches",
+        "South": "Shadow Labyrinth",
+        "West": "Echoing Corridor",
+    },
+    "Eclipsed Enclave": {  # 3 Ways
+        "East": "SECTION 3",
+        "South": "Veiled Vista",
+        "East": "Shawdow Labyrinth",
+    },
+    "Veiled Vista": {"North": "Eclipsed Enclave"},  # 1 Way
+    "Serpent's Spiral": {  # 2 Ways
+        "South": "Moonlit Maze",
+        "East": "Enigma Passage",
+    },
+    "Moonlit Maze": {  # 2 Ways
+        "North": "Serpent's Spiral",
+        "East": "SECTION 8",
+    },
+    "Cryptic Crossroads": {  # 4 Ways
+        "North": "Enigma Passage",
+        "South": "SECTION 2",
+    },
+    "Enchanted Corridor": {  # 1 Way
+        "West": "Starlit Sentries",
+    },
+    "Starlit Sentries": {  # 3 Ways
+        "East": "Enchanted Corridor",
+        "South": "SECTION 4",
+        "West": "Celestial Circuit",
+    },
+    "Celestial Circuit": {  # 2 Ways
+        "North": "Forgotten Nexus",
+        "East": "Starlit Sentries",
+    },
+    "Forgetten Nexus": {  # 3 Ways
+        "East": "Solutide Path",
+        "South": "Celestial Circuit",
+        "West": "SECTION 6",
+    },
+    "Nebula Nexus": {  # 1 Way
+        "East": "Whispering Woods",
+    },
+    "Mazeheart Nexus": {  # 2 Ways
+        "North": "Twilight Traverse",
+        "West": "SECTION 7",
+    },
+    "Twilight Traverse": {  # 3 Ways
+        "North": "SECTION 1",
+        "East": "Vortex Vestibule",
+        "South": "Mazeheart Nexus",
+    },
+    "Vortex Vestibule": {  # 2 Ways
+        "South": "Grievers' Alley",
+        "West": "Twilight Traverse",
     },
 }
