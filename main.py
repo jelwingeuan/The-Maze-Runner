@@ -1,10 +1,14 @@
 import os
+import random
 
 from PIL import Image
 
 map = Image.open("themazerunner.png")
 map.show()
 
+#Clears screen
+def clear():
+    os.system('cls' if os.name = 'nt' else 'clear')
 
 # Menu
 def prompt():
@@ -27,7 +31,7 @@ Section = {
         "North": "Echoing Corridor",
         "East": "Shadow Labyrinth",
         "South": "The Glade",
-        "West": "Grivers' Alley",
+        "West": "Grievers' Alley",
     },
     "Shadow Labyrinth": {  # 3 Ways
         "North": "Wraith's Walk",
@@ -75,6 +79,9 @@ Section = {
         "East": "Abyssal Arches",
         "South": "Shadow Labyrinth",
         "West": "Echoing Corridor",
+    },
+    "Abyssal Arches": {  # 1 Way
+        "West": "Wraith's Walk",
     },
     "Eclipsed Enclave": {  # 3 Ways
         "East": "SECTION 3",
@@ -128,3 +135,22 @@ Section = {
         "West": "Twilight Traverse",
     },
 }
+
+#User's Inventory
+Inventory = []
+
+#Track User's Section Location
+current_section = "The Glade"
+
+#User's Last Move
+msg = ""
+
+clear()
+prompt()
+
+#Loop
+while True:
+    clear()
+    #User's Display
+    print(f"You're currently at {current_section}n\Inventory:{Inventory}" )
+    print(msg)
