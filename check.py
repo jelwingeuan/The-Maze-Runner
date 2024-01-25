@@ -106,3 +106,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+Grenades = 50% (2)
+Bow = 40% (3)
+Sword = 30% (4)
+Spear = 20% (5)
+Darts = 10%(5)
+
+AN ATTACK BY GRIEVER: -10%
+
+

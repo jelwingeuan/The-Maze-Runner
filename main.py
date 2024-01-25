@@ -1,14 +1,16 @@
 import os
 import random
 
-from PIL import Image
+# from PIL import Image
 
-map = Image.open("themazerunner.png")
-map.show()
+# map = Image.open("themazerunner.png")
+# map.show()
 
-#Clears screen
+
+# Clears screen
 def clear():
-    os.system('cls' if os.name = 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
+
 
 # Menu
 def prompt():
@@ -136,21 +138,21 @@ Section = {
     },
 }
 
-#User's Inventory
+# User's Inventory
 Inventory = []
 
-#Track User's Section Location
+# Track User's Section Location
 current_section = "The Glade"
 
-#User's Last Move
+# User's Last Move
 msg = ""
 
 clear()
 prompt()
 
-#Loop
+# Loop
 while True:
     clear()
-    #User's Display
-    print(f"You're currently at {current_section}n\Inventory:{Inventory}" )
+    # User's Display
+    print(f"You're currently at {current_section}\nInventory: {Inventory}")
     print(msg)
