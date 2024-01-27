@@ -1,15 +1,42 @@
 import os
 import random
-
-# from PIL import Image
-
-# map = Image.open("themazerunner.png")
-# map.show()
-
+from PIL import Image
 
 # Clears screen
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
+
+
+# Display difficulty menu
+def difficulty_menu():
+    clear()
+    print(
+        "\t\t\tChoose Difficulty Level\n\n" "\t1. Easy\n" "\t2. Normal\n" "\t3. Hard\n"
+    )
+    choice = input("Enter your choice (1-3): ")
+    return choice
+
+
+# Load and display PNG image
+def display_map(difficulty):
+    map_files = {
+        "1": "themazerunnermapeasy.png",
+        "2": "themazerunnermapnormal.png",
+        "3": "themazerunnermaphard.png",
+    }
+    map_file = map_files.get(difficulty)
+    if map_file:
+        img = Image.open(map_file)
+        img.show()
+    else:
+        print("Invalid difficulty level.")
+
+
+# Difficulty level selection
+choice = difficulty_menu()
+
+# Display corresponding map based on difficulty level
+display_map(choice)
 
 
 # Menu
@@ -239,7 +266,6 @@ while True:
             )
             break
             # Game win condition or any other actions after winning
-    
 
     # Weapon Indicator
     if "Weapon" in Section[current_section].keys():
@@ -281,18 +307,18 @@ while True:
 
     # Monster
     class Monster:
-        def __init__(self,name, health):
+        def __init__(self, name, health):
             self.name = name
             self.health = health
-    
+
     current_monsters = {
-        "Enigma Passage": Monster("Grievers",100),
-        "Grievers' Alley": Monster("Grievers",100),
-        "Wraith's Walk": Monster("Grievers",100),
-        "Celestial Circuit": Monster("Grievers",100),
-        "Nebula Nexus": Monster("Grievers",100)
+        "Enigma Passage": Monster("Grievers", 100),
+        "Grievers' Alley": Monster("Grievers", 100),
+        "Wraith's Walk": Monster("Grievers", 100),
+        "Celestial Circuit": Monster("Grievers", 100),
+        "Nebula Nexus": Monster("Grievers", 100),
     }
-    
+
     player_health = 100
 
     # Player attack monster
@@ -305,8 +331,10 @@ while True:
             print(f"You are fighting {monster.name} (Health: {monster.health}% )")
             print(f"Your health: {player_health}% ")
 
-            if not inventory: #player didn't have any weapons
-                print("You don't have any weapons to fight back! You have been defeated!")
+            if not inventory:  # player didn't have any weapons
+                print(
+                    "You don't have any weapons to fight back! You have been defeated!"
+                )
                 break
 
             while True:
@@ -316,7 +344,7 @@ while True:
 
                 weapon_choice = input("Please enter your choice: ")
                 if weapon_choice in inventory:
-                    break # have weapon to choose
+                    break  # have weapon to choose
                 else:
                     print("Invalid weapon choice.")
 
@@ -328,10 +356,6 @@ while True:
             # Monster will retaliate after player attack it
             player_health -= 10
             print("Monster retaliated and dealth 10% damage to you!")
-
-
-
-
 
     # For movement
     player_input = input("Enter your move:\n")
