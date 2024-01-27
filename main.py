@@ -405,8 +405,10 @@ while True:
     # Attack
     elif action == "attack":
         if current_section in current_monsters:
+            if current_monsters[current_section].name == "Monster":
+                print("You met the boss! Is time to attack the monster!")
             player_attack_monster()
-            msg = "You met monster!"
+
 
     # Exit games
     elif action == "Exit":
