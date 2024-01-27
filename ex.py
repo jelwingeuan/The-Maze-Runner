@@ -355,10 +355,9 @@
 # import os
 # import random
 
-# # from PIL import Image
-
-# # map = Image.open("themazerunner.png")
-# # map.show()
+# # Import the required libraries
+# import tkinter as tk
+# from PIL import ImageTk, Image
 
 
 # # Clears screen
@@ -375,6 +374,9 @@
 #     )
 
 #     input("Press Enter To Continue...")
+
+# # User's Inventory with a maximum capacity of 10
+# inventory = {}
 
 
 # # Maze Map
@@ -535,16 +537,6 @@
 #     },
 # }
 
-
-# # User's Inventory with a maximum capacity of 10
-# inventory = {}
-
-
-# # Function to randomize exit sections
-# def get_random_exit_section():
-#     return random.randint(1, 8)
-
-
 # # Track User's Section Location
 # current_section = "The Glade"
 
@@ -575,7 +567,7 @@
 
 #     # Key Cursor
 #     if current_section == "The Glade" and correct_exit is None:
-#         correct_exit = get_random_exit_section()
+#         correct_exit = random.randint(1, 8)
 
 #     # Print the correct exit section for the key cursor
 #     if correct_exit is not None:
@@ -685,3 +677,5 @@
 
 #     else:
 #         msg = "Invalid command"
+#--------------------------------------------------------------------------------------------------
+        
