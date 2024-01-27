@@ -20,7 +20,7 @@ def prompt():
         \t'get {item}' (add current weapon to inventory)\n\n"
     )
 
-    input("Press Any Key To Continue...")
+    input("Press Enter To Continue...")
 
 
 # Maze Map
@@ -46,7 +46,7 @@ Section = {
         "West": "The Glade Entrance",
         "Weapon": "Grenades",
     },
-    "Runner' Junction": {  # 2 Ways
+    "Runners' Junction": {  # 2 Ways
         "South": "Enigma Passage",
         "West": "The Glade",
         "Weapon": "Sword",
@@ -77,7 +77,7 @@ Section = {
         "West": "Nebula Nexus",
         "Weapon": "Grenades",
     },
-    "Grivers' Alley": {  # 3 Ways
+    "Grievers' Alley": {  # 3 Ways
         "North": "Vortex Vestibule",
         "East": "The Glade Entrance",
         "South": "Whispering Woods",
@@ -100,13 +100,13 @@ Section = {
     "Eclipsed Enclave": {  # 3 Ways
         "East": "SECTION 3",
         "South": "Veiled Vista",
-        "East": "Shawdow Labyrinth",
+        "West": "Shadow Labyrinth",
         "Weapon": "Spear",
     },
     "Veiled Vista": {"North": "Eclipsed Enclave", "Weapon": "Darts"},  # 1 Way
     "Serpent's Spiral": {  # 2 Ways
         "South": "Moonlit Maze",
-        "East": "Enigma Passage",
+        "West": "Enigma Passage",
         "Weapon": "Spear",
     },
     "Moonlit Maze": {  # 2 Ways
@@ -132,7 +132,7 @@ Section = {
         "Monster": "Grievers",
     },
     "Forgotten Nexus": {  # 3 Ways
-        "East": "Solutide Path",
+        "East": "Solitude Path",
         "South": "Celestial Circuit",
         "West": "SECTION 6",
         "Weapon": "Bow",
@@ -159,7 +159,7 @@ Section = {
         "South": "Twilight Traverse",
     },
     "SECTION 2": {
-        "Nouth": "Cryptic Crossroads",
+        "North": "Cryptic Crossroads",
     },
     "SECTION 3": {
         "West": "Eclipsed Enclave",
@@ -204,6 +204,9 @@ prompt()
 
 name = input("Please enter you name: ")
 
+# Define correct_exit outside the loop initially
+correct_exit = None
+
 
 # Game loop # stop==win lose or exit
 while True:
@@ -217,8 +220,11 @@ while True:
     print(msg)
 
     # Key Cursor
-    if current_section == "The Glade":
-        correct_exit = random.choice([1, 2, 3, 4, 5, 6, 7, 8])
+    if current_section == "The Glade" and correct_exit is None:
+        correct_exit = get_random_exit_section()
+
+    # Print the correct exit section for the key cursor
+    if correct_exit is not None:
         print(f"The correct exit for the key is SECTION {correct_exit}")
 
     # Check if the player has reached the correct exit section
@@ -228,7 +234,9 @@ while True:
         # Player activates the key cursor
         activation_key = input("Press 'a' to activate the key cursor: ").lower()
         if activation_key == "a":
-            print("Congratulations! You have activated the key cursor. You've escaped the maze")
+            print(
+                "Congratulations! You have activated the key cursor. You've escaped the maze"
+            )
             break
             # Game win condition or any other actions after winning
 
