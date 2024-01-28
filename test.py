@@ -2,6 +2,7 @@ import os
 import random
 from PIL import Image
 
+
 # Clears screen
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
@@ -209,6 +210,51 @@ Section = {
 }
 
 
+# Player attack monster
+def player_attack_monster():
+    global player_health
+    monster = current_monsters[current_section]
+
+    while monster.health > 0 and player_health > 0:
+        print(f"You have encountered {monster.name}! Prepare for battle.")
+        print(f"You are fighting {monster.name} (Health: {monster.health}% )")
+        print(f"Your health: {player_health}% ")
+
+        if not inventory:  # player didn't have any weapons
+            print("You don't have any weapons to fight back! You have been defeated!")
+            break
+
+        print("Available Weapons:")
+        weapon_index = 1
+        for weapon_name, weapon in inventory.items():
+            print(f"{weapon_index}. {weapon_name} (Power: {weapon.power}%)")
+            weapon_index += 1
+
+        while True:
+            try:
+                weapon_choice_index = int(
+                    input("Enter the number of the weapon to use: ")
+                )
+                if 1 <= weapon_choice_index <= len(inventory):
+                    break  # valid choice
+                else:
+                    print(
+                        "Invalid weapon choice. Please enter a number within the range."
+                    )
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+        weapon_choice = list(inventory.keys())[weapon_choice_index - 1]
+        weapon = inventory[weapon_choice]
+        power = weapon.power
+        monster.health -= power
+        print(f"You attacked with {weapon_choice} and dealt {power}% damage!")
+
+        # Monster will retaliate after player attacks it
+        player_health -= 10
+        print("Monster retaliated and dealt 10% damage to you!")
+
+
 # User's Inventory with a maximum capacity of 10
 inventory = {}
 
@@ -321,42 +367,6 @@ while True:
 
     player_health = 100
 
-    # Player attack monster
-    def player_attack_monster():
-        global player_health
-        monster = current_monsters[current_section]
-
-        while monster.health > 0 and player_health > 0:
-            print(f"You have encountered {monster.name}! Prepare for battle.")
-            print(f"You are fighting {monster.name} (Health: {monster.health}% )")
-            print(f"Your health: {player_health}% ")
-
-            if not inventory:  # player didn't have any weapons
-                print(
-                    "You don't have any weapons to fight back! You have been defeated!"
-                )
-                break
-
-            while True:
-                print("Please choose your weapon: ")
-                for weapon_name, weapon in inventory.items:
-                    print(f"{weapon_name} (Power: {weapon.power}%)")
-
-                weapon_choice = input("Please enter your choice: ")
-                if weapon_choice in inventory:
-                    break  # have weapon to choose
-                else:
-                    print("Invalid weapon choice.")
-
-            weapon = inventory[weapon_choice]
-            power = weapon.power
-            monster.health -= power
-            print(f"You attacked with {weapon_name} and output {power}% damage! ")
-
-            # Monster will retaliate after player attack it
-            player_health -= 10
-            print("Monster retaliated and dealth 10%\ damage to you!")
-
     # For movement
     player_input = input("Enter your move:\n")
 
@@ -408,7 +418,6 @@ while True:
             if current_monsters[current_section].name == "Monster":
                 print("You met the boss! Is time to attack the monster!")
             player_attack_monster()
-
 
     # Exit games
     elif action == "Exit":
