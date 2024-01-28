@@ -2,7 +2,7 @@ import os
 import random
 from PIL import Image
 
-
+#_
 # Clears screen
 def clear():
     os.system("cls" if os.name == "nt" else "clear")

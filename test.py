@@ -209,6 +209,31 @@ Section = {
     },
 }
 
+# User's Inventory with a maximum capacity of 10
+inventory = {}
+
+
+# Function to randomize exit sections
+def get_random_exit_section():
+    return random.randint(1, 8)
+
+
+# Track User's Section Location
+current_section = "The Glade"
+
+# User's Last Move
+msg = ""
+
+
+# Display game menu
+clear()
+prompt()
+
+name = input("Please enter you name: ")
+
+# Define correct_exit outside the loop initially
+correct_exit = None
+
 
 # Player attack monster
 def player_attack_monster():
@@ -244,6 +269,7 @@ def player_attack_monster():
             except ValueError:
                 print("Invalid input. Please enter a number.")
 
+        # Get the weapon choice from the inventory
         weapon_choice = list(inventory.keys())[weapon_choice_index - 1]
         weapon = inventory[weapon_choice]
         power = weapon.power
@@ -252,33 +278,7 @@ def player_attack_monster():
 
         # Monster will retaliate after player attacks it
         player_health -= 10
-        print("Monster retaliated and dealt 10% damage to you!")
-
-
-# User's Inventory with a maximum capacity of 10
-inventory = {}
-
-
-# Function to randomize exit sections
-def get_random_exit_section():
-    return random.randint(1, 8)
-
-
-# Track User's Section Location
-current_section = "The Glade"
-
-# User's Last Move
-msg = ""
-
-
-# Display game menu
-clear()
-prompt()
-
-name = input("Please enter you name: ")
-
-# Define correct_exit outside the loop initially
-correct_exit = None
+        print("Monster retaliated and dealt 10%/ damage to you!")
 
 
 # Game loop # stop==win lose or exit
