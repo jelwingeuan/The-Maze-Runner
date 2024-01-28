@@ -225,6 +225,9 @@ current_section = "The Glade"
 # User's Last Move
 msg = ""
 
+# Vowels
+vowels = ['a', 'e', 'i','o', 'u']
+
 
 # Display game menu
 clear()
@@ -391,7 +394,7 @@ while True:
         if current_weapon[-1] == "s":
             print(f"You see {current_weapon}")
 
-        elif current_weapon[0] == "a" or "e" or "i" or "o" or "u":
+        elif current_weapon[0] in vowels:
             print(f"You see an {current_weapon}")
 
         else:
