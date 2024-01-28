@@ -1,6 +1,19 @@
+# *********************************************************
+# Program: YOUR_FILENAME.py
+# Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
+# Class: TL??
+# Year: 2023/24 Trimester 1
+# Names: GEUAN JUN WEI| TEOW YAN PING | AAFEA NAZIHAH BINTI ABDUL RAHMAN
+# IDs: 1221106005 | 1231103476 | 1221107656
+# Emails: 1221106005@student.mmu.edu.my | 1231103476@student.mmu.edu.my| 1221107656@student.mmu.edu.my
+# Phones: 016-6980710 | 019-4422688 | 011-19683929
+# *********************************************************
+
+
 import os
 import random
 from PIL import Image
+
 
 # Clears screen
 def clear():
@@ -11,13 +24,16 @@ def clear():
 def difficulty_menu():
     clear()
     print(
-        "\t\t\tChoose Difficulty Level\n\n" "\t1. Easy\n" "\t2. Normal\n" "\t3. Hard\n"
+        "\t\t\tPlease Choose Difficulty Level\n\n"
+        "\t1. Easy\n"
+        "\t2. Normal\n"
+        "\t3. Hard\n"
     )
-    choice = input("Enter your choice (1-3): ")
+    choice = input("Enter your difficulty level (1-3): ")
     return choice
 
 
-# Load and display PNG image
+# Load and display map
 def display_map(difficulty):
     map_files = {
         "1": "themazerunnermapeasy.png",
@@ -35,7 +51,7 @@ def display_map(difficulty):
 # Difficulty level selection
 choice = difficulty_menu()
 
-# Display corresponding map based on difficulty level
+# Display map based on diff level
 display_map(choice)
 
 
@@ -209,11 +225,11 @@ Section = {
 }
 
 
-# User's Inventory with a maximum capacity of 10
+# User's Inventory
 inventory = {}
 
 
-# Function to randomize exit sections
+# Func to randomize exit sections
 def get_random_exit_section():
     return random.randint(1, 8)
 
@@ -234,14 +250,121 @@ name = input("Please enter you name: ")
 # Define correct_exit outside the loop initially
 correct_exit = None
 
+# Player health and monster
+player_health = 100
+current_monsters = {
+    "Enigma Passage": {"name": "Grievers", "health": 100},
+    "Grievers' Alley": {"name": "Grievers", "health": 100},
+    "Wraith's Walk": {"name": "Grievers", "health": 100},
+    "Celestial Circuit": {"name": "Grievers", "health": 100},
+    "Nebula Nexus": {"name": "Grievers", "health": 100},
+}
 
-# Game loop # stop==win lose or exit
+
+# Weapons
+class Weapon:
+    def __init__(self, name, power):
+        self.name = name
+        self.power = power
+
+
+class Grenades(Weapon):
+    def __init__(self):
+        super().__init__("Grenades", 40)
+
+
+class Bow(Weapon):
+    def __init__(self):
+        super().__init__("Bow", 30)
+
+
+class Sword(Weapon):
+    def __init__(self):
+        super().__init__("Sword", 20)
+
+
+class Spear(Weapon):
+    def __init__(self):
+        super().__init__("Spear", 10)
+
+
+class Darts(Weapon):
+    def __init__(self):
+        super().__init__("Darts", 5)
+
+
+# Monster
+class Monster:
+    def __init__(self, name, health):
+        self.name = name
+        self.health = health
+
+
+# Func to handle player attacking the monster
+def player_attack_monster():
+    global player_health
+    monster = current_monsters[current_section]
+
+    # Check if the player has weapons to fight back
+    if not inventory:
+        print("You don't have any weapons to fight back! You have been defeated!")
+        return True
+
+    # If got weapons
+    while monster["health"] > 0 and player_health > 0:
+        print(f"You have encountered {monster['name']}! Prepare for battle.")
+        print(f"You are fighting {monster['name']} (Health: {monster['health']})")
+        print(f"Your health: {player_health}")
+
+        while True:
+            print("Please choose your weapon: ")
+            for weapon_name, weapon_instance in inventory.items():
+                print(f"{weapon_name} (Power: {weapon_instance.power})")
+
+            weapon_choice = (
+                input("Please enter a name of the weapon of your choice: ")
+                .strip()
+                .title()
+            )
+            if weapon_choice in inventory:
+                break
+            else:
+                print("Invalid weapon choice.")
+
+        weapon_instance = inventory[weapon_choice]
+        power = weapon_instance.power
+        monster["health"] -= power
+        print(f"You attacked with {weapon_choice} and output {power} damage! ")
+
+        # Monster retaliation
+        player_health -= 20  # Reduce player's health by a fixed amount
+        print("Monster retaliated and dealt 20 damage to you!!!")
+
+    # Check if the player has been defeated
+    if player_health <= 0:
+        print("Your health dropped to 0! You died. Game over.")
+        return True  # Indicate that the player has been defeated
+
+    # If the monster has been defeated
+    if monster["health"] <= 0:
+        print(
+            f"You defeated the {monster['name']}! Now continue search for exit section."
+        )
+        return False  # Indicate that the player defeated the monster and can continue the game
+
+
+# Game loop win&lose&exit
 while True:
     clear()
 
-    print(
-        f"{name}, you are in the {current_section}.\n Inventory: {inventory}\n{'-'*27}"
-    )
+    # Inventory display
+    if inventory:
+        inventory_str = ", ".join(inventory.keys())
+        print(f"Inventory: {inventory_str}")
+    else:
+        print("Inventory: Empty")
+
+    print(f"{name}, you are in the {current_section}.\n{'-'*27}")
 
     # Display msg
     print(msg)
@@ -267,95 +390,24 @@ while True:
             break
             # Game win condition or any other actions after winning
 
+    # Check if the current section has a monster
+    print(f"Current Section: {current_section}")
+    if current_section in current_monsters:
+        print("Monster encountered!")
+        if player_attack_monster():  # Check if the player has been defeated
+            break  # End the game if the player is defeated
+    else:
+        print("No monster in this section")
+
+    # End the game if the player is defeated and has no weapons
+    if player_health <= 0:
+        print("Your health dropped to 0! Game over.")
+        break
+
     # Weapon Indicator
     if "Weapon" in Section[current_section].keys():
         current_weapon = Section[current_section]["Weapon"]
-
-        if current_weapon[-1] == "s":
-            print(f"You see {current_weapon}")
-
-        elif current_weapon[0] == "a" or "e" or "i" or "o" or "u":
-            print(f"You see an {current_weapon}")
-
-        else:
-            print(f"You see a {current_weapon}")
-
-    class Weapon:
-        def __init__(self, name, power):
-            self.name = name
-            self.power = power
-
-    class Grenades(Weapon):
-        def __init__(self):
-            super().__init__(Grenades, 50)
-
-    class Bow(Weapon):
-        def __init__(self):
-            super().__init__(Bow, 40)
-
-    class Sword(Weapon):
-        def __init__(self):
-            super().__init__(Sword, 30)
-
-    class Spear(Weapon):
-        def __init__(self):
-            super().__init__(Spear, 20)
-
-    class Darts(Weapon):
-        def __init__(self):
-            super().__init__(Darts, 10)
-
-    # Monster
-    class Monster:
-        def __init__(self, name, health):
-            self.name = name
-            self.health = health
-
-    current_monsters = {
-        "Enigma Passage": Monster("Grievers", 100),
-        "Grievers' Alley": Monster("Grievers", 100),
-        "Wraith's Walk": Monster("Grievers", 100),
-        "Celestial Circuit": Monster("Grievers", 100),
-        "Nebula Nexus": Monster("Grievers", 100),
-    }
-
-    player_health = 100
-
-    # Player attack monster
-    def player_attack_monster():
-        global player_health
-        monster = current_monsters[current_section]
-
-        while monster.health > 0 and player_health > 0:
-            print(f"You have encountered {monster.name}! Prepare for battle.")
-            print(f"You are fighting {monster.name} (Health: {monster.health}% )")
-            print(f"Your health: {player_health}% ")
-
-            if not inventory:  # player didn't have any weapons
-                print(
-                    "You don't have any weapons to fight back! You have been defeated!"
-                )
-                break
-
-            while True:
-                print("Please choose your weapon: ")
-                for weapon_name, weapon in inventory.items:
-                    print(f"{weapon_name} (Power: {weapon.power}%)")
-
-                weapon_choice = input("Please enter your choice: ")
-                if weapon_choice in inventory:
-                    break  # have weapon to choose
-                else:
-                    print("Invalid weapon choice.")
-
-            weapon = inventory[weapon_choice]
-            power = weapon.power
-            monster.health -= power
-            print(f"You attacked with {weapon_name} and output {power}% damage! ")
-
-            # Monster will retaliate after player attack it
-            player_health -= 10
-            print("Monster retaliated and dealth 10%\ damage to you!")
+        print(f"You see {current_weapon}")
 
     # For movement
     player_input = input("Enter your move:\n")
@@ -374,7 +426,7 @@ while True:
     if action == "Go":
         try:
             current_section = Section[current_section][direction]
-            msg = f"You travel {direction}."
+            msg = f"You traveled {direction}."
 
         except:
             msg = f"You can't go that way."
@@ -382,35 +434,53 @@ while True:
     # Picking
     elif action == "Get":
         try:
-            weapon_to_get = next_move[1].title()
-            current_weapon = Section[current_section]["Weapon"]
+            # Check if there is a Weapon key in the current section
+            if "Weapon" in Section[current_section]:
+                weapon_to_get = Section[current_section]["Weapon"].title()
 
-            if weapon_to_get == current_weapon:
-                if len(inventory) <= 10:
-                    if weapon_to_get in inventory:
-                        inventory[weapon_to_get] += 1
+                # Check if the weapon to get matches the weapon in the section
+                if weapon_to_get == weapon.title():
+                    # Create an instance of the weapon based on its name
+                    if weapon_to_get == "Grenades":
+                        weapon_instance = Grenades()
+                    elif weapon_to_get == "Bow":
+                        weapon_instance = Bow()
+                    elif weapon_to_get == "Sword":
+                        weapon_instance = Sword()
+                    elif weapon_to_get == "Spear":
+                        weapon_instance = Spear()
+                    elif weapon_to_get == "Darts":
+                        weapon_instance = Darts()
                     else:
-                        inventory[weapon_to_get] = 1
-                    msg = f"You got {weapon_to_get}! (There are now {inventory[weapon_to_get]} of them in your inventory.)"
+                        raise ValueError("Invalid weapon type")
+
+                    # Add the weapon into inventory
+                    if len(inventory) >= 0:
+                        if weapon_to_get in inventory:
+                            inventory[weapon_to_get] += 1
+                        else:
+                            inventory[weapon_to_get] = weapon_instance
+                        msg = f"You got {weapon_to_get}!"
+                    else:
+                        msg = "Your inventory is full! "
                 else:
-                    msg = "Your inventory is full! "
+                    msg = f"There's no {weapon} in this section."
             else:
-                msg = "There's no such weapon here."
-        except KeyError:
-            msg = "There's no weapon in this section."
+                msg = "There's no weapon in this section."
         except Exception as e:
             print(f"An error occurred: {e}")
             msg = "Something went wrong."
 
     # Attack
-    elif action == "attack":
+    elif action == "Attack":
         if current_section in current_monsters:
-            if current_monsters[current_section].name == "Monster":
-                print("You met the boss! Is time to attack the monster!")
-            player_attack_monster()
+            if current_monsters[current_section]["name"] == "Grievers":
+                print("It's time to attack the monster!")
+                player_attack_monster()
+            else:
+                print("There's no monster to attack in this section.")
 
-
-    # Exit games
+    # Exit game
     elif action == "Exit":
         break
 
