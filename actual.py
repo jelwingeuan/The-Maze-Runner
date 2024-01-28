@@ -99,7 +99,7 @@ Section = {
         "Weapon": "Spear",
     },
     "Whispering Woods": {  # 4 Ways
-        "North": "Greivers' Alley",
+        "North": "Grievers' Alley",
         "East": "The Glade",
         "South": "Solitude Path",
         "West": "Nebula Nexus",
@@ -255,27 +255,27 @@ class Weapon:
 
 class Grenades(Weapon):
     def __init__(self):
-        super().__init__("Grenades", 50)
+        super().__init__("Grenades", 40)
 
 
 class Bow(Weapon):
     def __init__(self):
-        super().__init__("Bow", 40)
+        super().__init__("Bow", 30)
 
 
 class Sword(Weapon):
     def __init__(self):
-        super().__init__("Sword", 30)
+        super().__init__("Sword", 20)
 
 
 class Spear(Weapon):
     def __init__(self):
-        super().__init__("Spear", 20)
+        super().__init__("Spear", 10)
 
 
 class Darts(Weapon):
     def __init__(self):
-        super().__init__("Darts", 10)
+        super().__init__("Darts", 5)
 
 
 # Monster class
@@ -290,65 +290,61 @@ def player_attack_monster():
     global player_health
     monster = current_monsters[current_section]
 
+    # Check if the player has weapons to fight back
+    if not inventory:
+        print("You don't have any weapons to fight back! You have been defeated!")
+        return True
+
     while monster["health"] > 0 and player_health > 0:
         print(f"You have encountered {monster['name']}! Prepare for battle.")
         print(f"You are fighting {monster['name']} (Health: {monster['health']})")
         print(f"Your health: {player_health}")
 
-        if not inventory:
-            print("You don't have any weapons to fight back! You have been defeated!")
-            return True  # Indicate that the player has been defeated
-
         while True:
             print("Please choose your weapon: ")
-            for weapon_name, count in inventory.items():
-                print(f"{weapon_name} ({count})")
+            for weapon_name, weapon_instance in inventory.items():
+                print(f"{weapon_name} (Power: {weapon_instance.power})")
 
             weapon_choice = input("Please enter your choice: ")
-            weapon_choice = weapon_choice.lower()
             if weapon_choice in inventory:
                 break
             else:
                 print("Invalid weapon choice.")
 
         weapon_instance = inventory[weapon_choice]
+        power = weapon_instance.power
+        monster["health"] -= power
+        print(f"You attacked with {weapon_choice} and output {power} damage! ")
 
-        # Check if the weapon_instance is an instance of a weapon object
-        if isinstance(weapon_instance, Weapon):
-            power = weapon_instance.power
-            monster["health"] -= power
-            print(f"You attacked with {weapon_choice} and output {power} damage! ")
-
-            # Remove the used weapon from inventory
-            if isinstance(inventory[weapon_choice], int):
-                del inventory[weapon_choice]
-            else:
-                inventory[weapon_choice] -= 1
-
-            player_health -= 20  # Reduce player's health by a fixed amount
-            print("Monster retaliated and dealt 20 damage to you!")
-        else:
-            print("Invalid weapon selection. Please choose a valid weapon.")
+        # Monster retaliation
+        player_health -= 20  # Reduce player's health by a fixed amount
+        print("Monster retaliated and dealt 20 damage to you!")
 
     # Check if the player has been defeated
     if player_health <= 0:
         print("Your health dropped to 0! Game over.")
         return True  # Indicate that the player has been defeated
 
+    # If the monster has been defeated
+    if monster["health"] <= 0:
+        print(
+            f"You defeated the {monster['name']}! Now continue search for exit section."
+        )
+        return False  # Indicate that the player defeated the monster and can continue the game
+
 
 # Game loop # stop==win lose or exit
 while True:
     clear()
-    print(f"{name}, you are in the {current_section}.\nInventory: ", end="")
 
-    # Display inventory
+    # Inventory display
     if inventory:
-        inventory_str = ", ".join(
-            [f"{item}({count})" for item, count in inventory.items()]
-        )
-        print(inventory_str)
+        inventory_str = ", ".join(inventory.keys())
+        print(f"Inventory: {inventory_str}")
     else:
-        print("Empty")
+        print("Inventory: Empty")
+
+    print(f"{name}, you are in the {current_section}.\n{'-'*27}")
 
     # Display msg
     print(msg)
@@ -426,16 +422,39 @@ while True:
     # Picking
     elif action == "Get":
         try:
-            weapon_to_get = next_move[1].title()
+            # Check if there is a Weapon key in the current section
+            if "Weapon" in Section[current_section]:
+                weapon_to_get = Section[current_section]["Weapon"].title()
 
-            if weapon_to_get in inventory:
-                inventory[weapon_to_get] += 1
+                # Check if the weapon to get matches the weapon in the section
+                if weapon_to_get == weapon.title():
+                    # Create an instance of the weapon based on its name
+                    if weapon_to_get == "Grenades":
+                        weapon_instance = Grenades()
+                    elif weapon_to_get == "Bow":
+                        weapon_instance = Bow()
+                    elif weapon_to_get == "Sword":
+                        weapon_instance = Sword()
+                    elif weapon_to_get == "Spear":
+                        weapon_instance = Spear()
+                    elif weapon_to_get == "Darts":
+                        weapon_instance = Darts()
+                    else:
+                        raise ValueError("Invalid weapon type")
+
+                    # Add the weapon to the inventory
+                    if len(inventory) >= 0:
+                        if weapon_to_get in inventory:
+                            inventory[weapon_to_get] += 1
+                        else:
+                            inventory[weapon_to_get] = weapon_instance
+                        msg = f"You got {weapon_to_get}!"
+                    else:
+                        msg = "Your inventory is full! "
+                else:
+                    msg = f"There's no {weapon} in this section."
             else:
-                inventory[weapon_to_get] = 1  # Store the count of the item
-
-            msg = f"You got {weapon_to_get}! (There are now {inventory[weapon_to_get]} of them in your inventory.)"
-        except KeyError:
-            msg = "There's no weapon in this section."
+                msg = "There's no weapon in this section."
         except Exception as e:
             print(f"An error occurred: {e}")
             msg = "Something went wrong."
