@@ -1,15 +1,3 @@
-# *********************************************************
-# Program: YOUR_FILENAME.py
-# Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
-# Class: TL??
-# Year: 2023/24 Trimester 1
-# Names: GEUAN JUN WEI| TEOW YAN PING | AAFEA NAZIHAH BINTI ABDUL RAHMAN
-# IDs: 1221106005 | 1231103476 | 1221107656
-# Emails: 1221106005@student.mmu.edu.my | 1231103476@student.mmu.edu.my| 1221107656@student.mmu.edu.my
-# Phones: 016-6980710 | 019-4422688 | 011-19683929
-# *********************************************************
-
-
 import os
 import random
 from PIL import Image
