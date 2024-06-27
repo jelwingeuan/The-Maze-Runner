@@ -48,7 +48,7 @@ def prompt():
         \t'get {item}' (add current weapon to inventory)\n\n"
     )
 
-    input("Press Enter To Continue...")
+    input("Please Press Enter To Continue...")
 
 
 # Maze Map
