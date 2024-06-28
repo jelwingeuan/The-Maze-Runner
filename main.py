@@ -384,7 +384,7 @@ while True:
 
     # End the game if the player is defeated and has no weapons
     if player_health <= 0:
-        print("Your health dropped to 0! Game over.")
+        print("Your health dropped to 0! You've been defeated, Game over.")
         break
 
     # Weapon Indicator
