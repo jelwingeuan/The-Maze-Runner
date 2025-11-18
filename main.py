@@ -1,7 +1,7 @@
 import os
 import random
 from PIL import Image
-
+#updated pillow
 
 # Clears screen
 def clear():
